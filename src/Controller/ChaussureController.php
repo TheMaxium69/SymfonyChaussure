@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class ChaussureController extends AbstractController
 {
@@ -32,15 +33,11 @@ class ChaussureController extends AbstractController
     /**
      * @Route("/chaussure/create", name="chaussureCreate", methods={"POST"})
      */
-    public function create(Request $request, EntityManagerInterface $manager): Response
+    public function create(Request $request, EntityManagerInterface $manager, SerializerInterface $serializer): Response
     {
-        $chaussure = new Chaussure();
+        $data = $request->getContent();
+        $chaussure = $serializer->deserialize($data, Chaussure::class, 'json');
 
-        $data = $request->toArray();
-
-        $chaussure->setName($data['name']);
-        $chaussure->setBrand($data['brand']);
-        $chaussure->setDescription($data['description']);
         $manager->persist($chaussure);
         $manager->flush();
 
