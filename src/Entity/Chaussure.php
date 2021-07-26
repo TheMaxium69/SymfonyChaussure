@@ -6,6 +6,8 @@ use App\Repository\ChaussureRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 /**
  * @ORM\Entity(repositoryClass=ChaussureRepository::class)
  */
@@ -15,27 +17,31 @@ class Chaussure
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"chaussuresIndex", "lacetsIndex"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"chaussuresIndex"})
+     * @Groups({"chaussuresIndex", "lacetsIndex"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"chaussuresIndex", "lacetsIndex"})
      */
     private $brand;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"chaussuresIndex", "lacetsIndex"})
      */
     private $description;
 
     /**
      * @ORM\OneToMany(targetEntity=Lacet::class, mappedBy="chaussure")
+     * @Groups({"chaussuresIndex"})
      */
     private $lacets;
 

@@ -15,16 +15,19 @@ class Lacet
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"chaussuresIndex", "lacetsIndex"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"chaussuresIndex", "lacetsIndex"})
      */
     private $couleur;
 
     /**
      * @ORM\ManyToOne(targetEntity=Chaussure::class, inversedBy="lacets")
+     * @Groups({"lacetsIndex"})
      */
     private $chaussure;
 
