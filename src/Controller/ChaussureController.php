@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Chaussure;
 use App\Repository\ChaussureRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,9 +13,18 @@ class ChaussureController extends AbstractController
     /**
      * @Route("/chaussure", name="chaussure")
      */
-    public function index(ChaussureRepository $RepoChaussure): Response
+    public function index(ChaussureRepository $repoChaussure): Response
     {
-        $Chaussures = $RepoChaussure->findAll();
-        return $this->json($Chaussures);
+        $chaussures = $repoChaussure->findAll();
+        return $this->json($chaussures);
     }
+
+    /**
+     * @Route("/chaussure/show/{id}", name="chaussureShow")
+     */
+    public function show(Chaussure $chaussure): Response
+    {
+        return $this->json($chaussure);
+    }
+
 }
