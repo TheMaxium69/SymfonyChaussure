@@ -3,8 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\ChaussureRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
 /**
  * @ORM\Entity(repositoryClass=ChaussureRepository::class)
  */
@@ -19,6 +20,7 @@ class Chaussure
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"chaussuresIndex"})
      */
     private $name;
 
@@ -31,6 +33,16 @@ class Chaussure
      * @ORM\Column(type="string", length=255)
      */
     private $description;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Lacet::class, mappedBy="chaussure")
+     */
+    private $lacets;
+
+    public function __construct()
+    {
+        $this->lacets = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -69,6 +81,36 @@ class Chaussure
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Lacet[]
+     */
+    public function getLacets(): Collection
+    {
+        return $this->lacets;
+    }
+
+    public function addLacet(Lacet $lacet): self
+    {
+        if (!$this->lacets->contains($lacet)) {
+            $this->lacets[] = $lacet;
+            $lacet->setChaussure($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLacet(Lacet $lacet): self
+    {
+        if ($this->lacets->removeElement($lacet)) {
+            // set the owning side to null (unless already changed)
+            if ($lacet->getChaussure() === $this) {
+                $lacet->setChaussure(null);
+            }
+        }
 
         return $this;
     }

@@ -19,7 +19,12 @@ class ChaussureController extends AbstractController
     public function index(ChaussureRepository $repoChaussure): Response
     {
         $chaussures = $repoChaussure->findAll();
-        return $this->json($chaussures);
+
+        return $this->json($chaussures, 200, [], [
+            "groups"=> [
+                "chaussuresIndex"
+            ]
+        ]);
     }
 
     /**
