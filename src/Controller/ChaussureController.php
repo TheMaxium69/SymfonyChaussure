@@ -32,7 +32,11 @@ class ChaussureController extends AbstractController
      */
     public function show(Chaussure $chaussure): Response
     {
-        return $this->json($chaussure);
+        return $this->json($chaussure, 200, [], [
+            "groups"=> [
+                "chaussuresIndex"
+            ]
+        ]);
     }
 
     /**
