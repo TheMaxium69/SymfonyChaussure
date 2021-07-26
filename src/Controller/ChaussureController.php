@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Chaussure;
 use App\Repository\ChaussureRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -26,5 +28,26 @@ class ChaussureController extends AbstractController
     {
         return $this->json($chaussure);
     }
+
+    /**
+     * @Route("/chaussure/create", name="chaussureCreate", methods={"POST"})
+     */
+    public function create(Request $request, EntityManagerInterface $manager): Response
+    {
+        $chaussure = new Chaussure();
+
+        $data = $request->toArray();
+
+        $chaussure->setName($data['name']);
+        $chaussure->setBrand($data['brand']);
+        $chaussure->setDescription($data['description']);
+        $manager->persist($chaussure);
+        $manager->flush();
+
+        return $this->json($chaussure);
+    }
+
+
+
 
 }
